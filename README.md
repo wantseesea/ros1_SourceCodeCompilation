@@ -94,6 +94,16 @@ ubunt22.03源码编译ros 1 noetic：     https://blog.csdn.net/u010085528/artic
 	更改系统Log4cxx库的头文件/usr/include/log4cxx/boost-std-configuration.h 从
 
 	#define STD_SHARED_MUTEX_FOUND 1
+ #6. from rosmaster.master_api import NUM_WORKERS ModuleNotFoundError: No module named 'rosmaster'
+	遇到这个问题，是因为roscore程序没有找到rosmaster模块中的master_api，所以需要设置ros能够找到这些模块的正确路径。
+	解决方法：
+	需要在变量环境.bashrc中设置引用到这些库的路径。首先打开.bashrc，然后加入引用路径，然后source更新一下变量环境。
+	添加内容：export PYTHONPATH=/opt/ros/kinetic/lib/python2.7/dist-packages${PYTHONPATH:+:${PYTHONPATH}}
+
+	./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release \
+	  --pkg roscore -DPYTHON_EXECUTABLE=/usr/bin/python3
+	  
+	这上面的python路径可能要参考你安装时候的打印，/usr/bin/env 后面哪一串
 	#define Boost_SHARED_MUTEX_FOUND 0
 
 	改成
